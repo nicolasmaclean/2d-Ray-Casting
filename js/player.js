@@ -1,19 +1,19 @@
 class Player {
-    constructor(pos) {
+    constructor(pos, rotation) {
         this.pos = pos;
         this.rays = [];
         this.fov = 2*Math.PI/3;
-        this.centerView = 0
-        for(let i = this.centerView-this.fov/2; i < this.centerView + this.fov/2; i += .00025){
-            this.rays.push(new Ray(pos, i))
+        this.rotation = rotation;
+        for(let i = this.rotation-this.fov/2; i < this.rotation + this.fov/2; i += .0005){
+            this.rays.push(new Ray(this.pos, i))
         }
     }
-
+    
     draw() {
         // for(let i = 0; i < this.rays.length; i++){
         //     this.rays[i].draw();
         // }
-
+            
         c.fillStyle = "#fff";
         c.strokeStyle = "#fff";
         c.beginPath();
@@ -22,8 +22,12 @@ class Player {
         c.stroke();
     }
 
-    update(pos) {
-        this.pos = pos;
+    updateRotation(r) {
+        this.rotation = r;
+        this.rays = [];
+        for(let i = this.rotation-this.fov/2; i < this.rotation + this.fov/2; i += .00025){
+            this.rays.push(new Ray(this.pos, i))
+        }
     }
 
     look(walls) {
